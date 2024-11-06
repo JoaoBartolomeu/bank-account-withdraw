@@ -1,6 +1,7 @@
 package org.treinamentoNelio;
 
 import org.treinamentoNelio.entities.Account;
+import org.treinamentoNelio.exceptions.BusinessException;
 
 import java.util.Scanner;
 
@@ -25,10 +26,12 @@ public class Main {
         Account acc = new Account(numero, titular, saldoInicial, limiteSaque);
 
         System.out.print("Informe uma quantia para sacar: ");
-        acc.withdraw(sc.nextDouble());
-        System.out.print("Novo Saldo: ");
-        System.out.print(acc.getBalance());
-
+        try {
+            acc.withdraw(sc.nextDouble());
+            System.out.print("Novo Saldo: " + acc.getBalance());
+        }catch (BusinessException e){
+            System.out.println(e.getMessage());
+        }
         sc.close();
     }
 }
