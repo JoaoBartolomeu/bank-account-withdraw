@@ -1,5 +1,7 @@
 package org.treinamentoNelio.entities;
 
+import org.treinamentoNelio.exceptions.BusinessException;
+
 public class Account {
     private Integer number;
     private String holder;
@@ -51,12 +53,16 @@ public class Account {
     }
 
     public void withdraw(Double amount) {
-        if (amount > withdrawLimit) {
-            throw new IllegalArgumentException("Amount exceeds limit of " + withdrawLimit);
-        } else if (amount > balance) {
-            throw new IllegalArgumentException("Amount exceeds balance of " + balance);
-        }
+        validateWithdraw(amount);
         balance -= amount;
+    }
+
+    private void validateWithdraw(Double amount) {
+        if (amount > getWithdrawLimit()) {
+            throw new BusinessException("Amount exceeds limit");
+        } else if (amount > getBalance()) {
+            throw new BusinessException("Amount exceeds balance");
+        }
     }
 
     @Override
